@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>机器学习分类系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ static_url('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ static_url('css/flat-ui.min.css') }}"   rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/index.css') }}">
+    <script src="{{ static_url('js/jquery.min.js') }}"></script>
+    <script src="{{ static_url('js/flat-ui.min.js') }}"></script>
+    <script src="{{ static_url('js/echarts.min.js') }}"></script>
+  </head>
+  <body>
+    <div id="navigation">
+      <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+          <a class="navbar-brand" href="#" style="">机器学习分类系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-01">
+          <form class="navbar-form navbar-right" action="#" role="search">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
+                <span class="input-group-btn">
+                  <button type="submit" class="btn"><span class="fui-search"></span></button>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </nav>
+    </div><!--navigation-->
+    <div class="container">
+      <div class="col-md-3">
+        <div class="section">
+          <div class="header">
+            <h5><i class="fa fa-desktop"></i> 算法简介</h5>
+              <a href="javascript:void(0)">
+                <i class="fa fa-caret-down"></i>
+              </a>
+          </div>
+          <div class="body">
+            <p id="algocontent">随机森林指的是利用多棵树对样本进行训练并预测的一种分类器.</p>
+          </div>
+        </div><!--.section-->
+
+        <div id="overview" class="section">
+          <div class="header">
+              <h5><i class="fa fa-desktop"></i> 实验结果</h5>
+              <a href="javascript:void(0)">
+                  <i class="fa fa-caret-down"></i>
+              </a>
+          </div> <!-- .header -->
+          <div class="body">
+              <div class="row-fluid">
+                  <div class="col-md-8 text-bold"><b>运行时间</b></div> <!-- .span4 -->
+                  <div class="col-md-4" id="time">
+                    0<b>S</b>
+                  </div> <!-- .span8 -->
+              </div> <!-- .row-fluid -->
+              <div class="row-fluid" ">
+                  <div class="col-md-8 text-bold"><b>总体精度</b></div> <!-- .span4 -->
+                  <div class="col-md-4" id="precision"><b>%</b></div> <!-- .span8 -->
+              </div> <!-- .row-fluid -->
+              <div class="row-fluid">
+                  <div class="col-md-8 text-bold"><b>总体召回率</b></div> <!-- .span4 -->
+                  <div class="col-md-4" id="recall">0<b>%</b></div> <!-- .span8 -->
+              </div> <!-- .row-fluid -->
+              <div class="row-fluid">
+                  <div class="col-md-8 text-bold"><b>总体F1-Sorce</b></div> <!-- .span4 -->
+                  <div class="col-md-4" id="fscore">0<b>%</b></div> <!-- .span8 -->
+              </div> <!-- .row-fluid -->
+          </div> <!-- .body -->
+        </div> <!-- .section -->
+      </div><!--.col-md-3-->
+
+      <div class="col-md-6">
+        <div class="section">
+          <div class="header">
+            <h5><i class="fa fa-desktop"></i> 实验结果可视化</h5>
+                <a href="javascript:void(0)">
+                    <i class="fa fa-caret-down"></i>
+                </a>
+          </div>
+          <div class="body" >
+             <div style="text-align: center">
+              <div id="main" style="width: 100%; height: 500%"></div>
+             </div>
+          </div>
+        </div>
+      </div><!--col-md-6-->
+
+      <div class="col-md-3">
+        <div class="section">
+          <div class="header">
+             <h5><i class="fa fa-desktop"></i>训练样本分布</h5>
+            <a href="javascript:void(0)">
+              <i class="fa fa-caret-down"></i>
+            </a>
+          </div><!--.header-->
+          <div class="body" >
+            <div id="sample"  style="width: 120%; height: 200%"></div>
+          </div><!--body-->
+        </div><!--.section-->
+
+        <div class="section">
+          <div class="header">
+             <h5><i class="fa fa-desktop"></i>样本数量统计</h5>
+            <a href="javascript:void(0)">
+              <i class="fa fa-caret-down"></i>
+            </a>
+          </div><!--.header-->
+          <div class="body" >
+            <div id="count"  style="width: 100%; height: 200%"></div>
+          </div><!--body-->
+        </div><!--.section-->
+
+        <button class="btn btn-embossed btn-primary col-md-12" id="submit">
+            <a href="/">返回</a>
+        </button>
+      </div><!--.col-md-3-->
+      <div id = 'result' style="display: none;">{{ result }}</div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    var algorithms = {
+      'DT': "决策树算法是一种逼近离散函数值的方法。它是一种典型的分类方法，首先对数据进行处理，利用归纳算法生成可读的规则和决策树，然后使用决策对新数据进行分析。本质上决策树是通过一系列规则对数据进行分类的过程。",
+      'SVM': "支持向量机是CorinnaCortes和Vapnik等于1995年首先提出的，它在解决小样本、非线性及高维模式识别中表现出许多特有的优势，并能够推广应用到函数拟合等其他机器学习问题中。",
+      "AdaBoost": "Adaboost是一种迭代算法，其核心思想是针对同一个训练集训练不同的分类器(弱分类器)，然后把这些弱分类器集合起来，构成一个更强的最终分类器（强分类器）。",
+      "KNN": "邻近算法，或者说K最近邻(kNN，k-NearestNeighbor)分类算法是数据挖掘分类技术中最简单的方法之一。所谓K最近邻，就是k个最近的邻居的意思，说的是每个样本都可以用它最接近的k个邻居来代表。",
+      "SGD": "梯度下降法是一个一阶最优化算法，通常也称为最速下降法。要使用梯度下降法找到一个函数的局部极小值，必须向函数上当前点对应梯度（或者是近似梯度）的反方向的规定步长距离点进行迭代搜索。如果相反地向梯度正方向迭代进行搜索，则会接近函数的局部极大值点；这个过程则被称为梯度上升法",
+      "RF": "随机森林指的是利用多棵树对样本进行训练并预测的一种分类器",
+      "NBM": "贝叶斯分类是一类分类算法的总称，这类算法均以贝叶斯定理为基础，故统称为贝叶斯分类"
+    }
+  </script>
+  <script type="text/javascript">
+    var algokey = "{{ algo }}";
+    var result = "{{ result }}";
+  </script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+        var curAlgo = $(this).find("option:selected").val();
+        $('#algocontent').text(algorithms[algokey]);
+
+        var result = JSON.parse($('#result').text());
+        $('#time').text(result['time'] + 'ms');
+        $('#precision').text(result['precision']*100 + "%");
+        $('#recall').text(result['recall']*100 + "%");
+        $('#fscore').text(result['fscore']);
+
+        visionData(result);
+        samplePie(result['labelinfo']);
+        countSample(result['smpcnt']);
+    });
+  </script>
+  <script type="text/javascript">
+    function visionData(result) {
+      var vContainer = echarts.init(document.getElementById('main'));
+      
+      var option = {
+            tooltip : {
+                trigger: 'axis',
+                showDelay : 0,
+                axisPointer:{
+                    show: true,
+                    type : 'cross',
+                    lineStyle: {
+                        type : 'dashed',
+                        width : 1
+                    }
+                }
+            },
+            legend: {
+                data: result['legend']
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    dataZoom : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            xAxis : [
+                {
+                    type : 'value',
+                    scale:true
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value',
+                    scale:true
+                }
+            ],
+
+            series : result['series']
+        };
+        vContainer.setOption(option);
+    }
+  </script>
+  <script type="text/javascript">
+    function samplePie(labelinfo) {
+      var vContainer = echarts.init(document.getElementById('sample'));
+
+      var option = {
+          tooltip: {
+              trigger: 'item',
+              formatter: "{a} <br/>{b}: {c} ({d}%)"
+          },
+          legend: {
+              orient: 'vertical',
+              x: 'left',
+              data: labelinfo['legend']
+          },
+          series: [
+              {
+                  type:'pie',
+                  selectedMode: 'single',
+                  radius: [0, '90%'],     
+
+                  label: {
+                      normal: {
+                          position: 'inner'
+                      }
+                  },
+                  labelLine: {
+                      normal: {
+                          show: false
+                      }
+                  },
+                  data:labelinfo['data']
+              }
+          ]
+      };
+      vContainer.setOption(option);
+    }
+  </script>
+  <script type="text/javascript">
+    function countSample(smpCount) {
+      var vContainer = echarts.init(document.getElementById('count'));
+      var option = {
+          color: ['#3398DB'],
+          tooltip : {
+              trigger: 'axis',
+              axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                  type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+              }
+          },
+          grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+          },
+          xAxis : [
+              {
+                  type : 'category',
+                  data : ['训练样本', '测试样本'],
+                  axisTick: {
+                      alignWithLabel: true
+                  }
+              }
+          ],
+          yAxis : [
+              {
+                  type : 'value'
+              }
+          ],
+          series : [
+              {
+                  type:'bar',
+                  barWidth: '60%',
+                  data: smpCount
+              }
+          ]
+      };
+      vContainer.setOption(option);
+    }
+  </script>
+</html>

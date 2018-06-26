@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>机器学习分类系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ static_url('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ static_url('css/flat-ui.min.css') }}"   rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/index.css') }}">
+    <script src="{{ static_url('js/jquery.min.js') }}"></script>
+    <script src="{{ static_url('js/flat-ui.min.js') }}"></script>
+  </head>
+  <body>
+    <div id="navigation">
+      <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+          <a class="navbar-brand" href="#" style="">机器学习分类系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-01">
+          <form class="navbar-form navbar-right" action="#" role="search">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
+                <span class="input-group-btn">
+                  <button type="submit" class="btn"><span class="fui-search"></span></button>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </nav>
+    </div>
+    <div id="container">
+        <div class="row-fluid">
+            <div class="col-md-6 text-center">
+                <img src="{{ static_url('img/Error.png') }}" alt="">
+            </div> <!-- .col-md-6 -->
+            <div id="error-message" class="col-md-6">
+                <h4>你提交的数据有错误</h4>
+                <p>请检查您提交的数据</p>
+                <button class="btn btn-primary" onclick="history.go(-1)">返回</button>
+            </div> <!-- .col-md-6 -->
+        </div> <!-- .row -->
+    </div>
+</body>
+  <script type="text/javascript">
+    var algorithms = {
+      'DT': "决策树算法是一种逼近离散函数值的方法。它是一种典型的分类方法，首先对数据进行处理，利用归纳算法生成可读的规则和决策树，然后使用决策对新数据进行分析。本质上决策树是通过一系列规则对数据进行分类的过程。",
+
+      'SVM': "支持向量机是CorinnaCortes和Vapnik等于1995年首先提出的，它在解决小样本、非线性及高维模式识别中表现出许多特有的优势，并能够推广应用到函数拟合等其他机器学习问题中。",
+
+      "AdaBoost": "Adaboost是一种迭代算法，其核心思想是针对同一个训练集训练不同的分类器(弱分类器)，然后把这些弱分类器集合起来，构成一个更强的最终分类器（强分类器）。",
+
+      "KNN": "邻近算法，或者说K最近邻(kNN，k-NearestNeighbor)分类算法是数据挖掘分类技术中最简单的方法之一。所谓K最近邻，就是k个最近的邻居的意思，说的是每个样本都可以用它最接近的k个邻居来代表。",
+
+      "SGD": "梯度下降法是一个一阶最优化算法，通常也称为最速下降法。要使用梯度下降法找到一个函数的局部极小值，必须向函数上当前点对应梯度（或者是近似梯度）的反方向的规定步长距离点进行迭代搜索。如果相反地向梯度正方向迭代进行搜索，则会接近函数的局部极大值点；这个过程则被称为梯度上升法",
+
+      "RF": "随机森林指的是利用多棵树对样本进行训练并预测的一种分类器",
+
+      "NBM": "贝叶斯分类是一类分类算法的总称，这类算法均以贝叶斯定理为基础，故统称为贝叶斯分类"
+    }
+  </script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#algos').change(function() {
+        var curAlgo = $(this).find("option:selected").val();
+        $('#algocontent').text(algorithms[curAlgo]);
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    $('#submit').click(function() {
+      var algorithm = $('#algos').find("option:selected").val();
+      var trainSample = $('#triansamp').val();
+      var trainlbl = $('#trainlbl').val();
+      var testlbl = $('#testlbl').val();
+
+      $('#algoinput').attr("value", algorithm);
+      $('#dataform').submit();
+    });
+  </script>
+</html>

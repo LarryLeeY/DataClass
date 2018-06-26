@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>机器学习分类系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ static_url('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ static_url('css/flat-ui.min.css') }}"   rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ static_url('css/index.css') }}">
+    <script src="{{ static_url('js/jquery.min.js') }}"></script>
+    <script src="{{ static_url('js/flat-ui.min.js') }}"></script>
+  </head>
+  <body>
+    <div id="navigation">
+      <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+          <a class="navbar-brand" href="#" style="">机器学习分类系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-01">
+          <form class="navbar-form navbar-right" action="#" role="search">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
+                <span class="input-group-btn">
+                  <button type="submit" class="btn"><span class="fui-search"></span></button>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </nav>
+    </div>
+    <div class="container">
+      <div class="col-md-8">
+        <div class="alert alert-warning " style="display: none">
+          <a href="#" class="close" data-dismiss="alert">
+            &times;
+          </a>
+          <strong>警告！</strong>您的输入数据有问题。
+        </div>
+        <div class="section">
+          <div class="header">
+            <h5><i class="fa fa-desktop"></i> 实验结果可视化</h5>
+                <a href="javascript:void(0)">
+                    <i class="fa fa-caret-down"></i>
+                </a>
+          </div>
+          <div class="body" >
+      <div style="text-align: center">
+        <img src=" {{ static_url('img/config.png') }}" style="text-align: center"></img>
+        <h6>系统已就绪</h6>
+      </div>
+      
+      </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div id="overview" class="section">
+            <div class="header">
+                <h5><i class="fa fa-desktop"></i> 参数</h5>
+                <a href="javascript:void(0)">
+                    <i class="fa fa-caret-down"></i>
+                </a>
+            </div> <!-- .header -->
+            <div class="body">
+                <div class="row-fluid" >
+                    <div class="col-md-6 text-bold"><b>算法名称</b></div> <!-- .span4 -->
+                    <div class="col-md-6" style="margin-bottom: 10px">
+                      <select class="form-control" id="algos">
+                        <optgroup label="算法">
+                          <option value="DT">决策树</option>
+                          <option value="SVM">SVM</option>
+                          <option value="AdaBoost">AdaBoost</option>
+                          <option value="KNN">KNN</option>
+                          <option value="NBM">朴素贝叶斯</option>
+                          <option value="SGD">随机梯度下降法</option>
+                          <option value="RF">随机森林</option>
+                        </optgroup>
+                      </select>
+                    </div> <!-- .span8 -->
+                </div> <!-- .row-fluid -->
+                <div class="row-fluid" >
+                    <div class="col-md-6 text-bold"><b>训练样本</b></div> <!-- .span4 -->
+                    <div class="col-md-6">
+                      <button class="btn btn-primary col-md-12" style="margin-bottom: 10px" data-toggle="modal" data-target="#trainSample">加载训练样本</button>
+                    </div> <!-- .span8 -->
+                </div> <!-- .row-fluid -->
+                <div class="row-fluid" >
+                    <div class="col-md-6 text-bold"><b>测试样本</b></div> <!-- .span4 -->
+                    <div class="col-md-6"> <!-- .span8 -->
+                      <button class="btn btn-primary col-md-12" style="margin-bottom: 10px" data-toggle="modal" data-target="#testSample">加载测试样本</button>
+                    </div>
+                </div> <!-- .row-fluid -->
+            </div> <!-- .body -->
+        </div> <!-- .section -->
+
+        <div class="section">
+          <div class="header">
+            <h5><i class="fa fa-desktop"></i> 算法简介</h5>
+              <a href="javascript:void(0)">
+                <i class="fa fa-caret-down"></i>
+              </a>
+          </div>
+          <div class="body">
+            <p id="algocontent">决策树算法是一种逼近离散函数值的方法。它是一种典型的分类方法，首先对数据进行处理，利用归纳算法生成可读的规则和决策树，然后使用决策对新数据进行分析。本质上决策树是通过一系列规则对数据进行分类的过程。</p>
+          </div>
+        </div>
+        <button class="btn btn-embossed btn-primary col-md-12" id="submit">
+          提交
+        </button>
+      </div><!--/.col-md-->
+    <!-- /.container -->
+    <div class="modal fade" id="testSample" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">测试样本</h4>
+            </div>
+            <div class="modal-body">
+              <textarea class="form-control flat" placeholder="请键入样本（注：每行是一个样本，以逗号分隔不允许有空行）" id="testlbl">  
+              </textarea>
+             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+
+    <div class="modal fade" id="trainSample" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">测试样本</h4>
+            </div>
+            <div class="modal-body row-fluid" style="display: block;">
+              <p>训练样本</p>
+              <textarea class="form-control flat col-md-8" placeholder="请键入样本（注：每行是一个样本，以逗号分隔不允许有空行）" id="triansamp">  
+              </textarea>
+              <p>样本标签</p>
+              <textarea class="form-control flat col-md-6" placeholder="请键入标签（注：每行是一个标签）" style="margin-bottom: 10px" id="trainlbl">
+              </textarea>
+              <p style="text-align: right;" >注：请按要求输入数据以防发生数据</p>
+             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+
+    <div class="modal fade" id="trainSamples" tabindex="0" role="dialog" aria-labelledby="trianModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="trainModalLabel">测试样本</h4>
+            </div>
+            <div class="modal-body">
+              <textarea class="form-control flat col-md-8" placeholder="请键入样本（注：每行是一个样本，以逗号分隔不允许有空行）" id="testlbl">  
+              </textarea>
+             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+
+    <form action="/res" method="post" id="dataform">
+      <input type="text" class="form-control hiddenInput" name="algorithms" id="algoinput" style="display: none">
+      <input type="text" class="form-control hiddenInput" name="trainSample" id="trainSampleInput" style="display: none">
+    </form>
+</body>
+  <script type="text/javascript">
+    var algorithms = {
+      'DT': "决策树算法是一种逼近离散函数值的方法。它是一种典型的分类方法，首先对数据进行处理，利用归纳算法生成可读的规则和决策树，然后使用决策对新数据进行分析。本质上决策树是通过一系列规则对数据进行分类的过程。",
+
+      'SVM': "支持向量机是CorinnaCortes和Vapnik等于1995年首先提出的，它在解决小样本、非线性及高维模式识别中表现出许多特有的优势，并能够推广应用到函数拟合等其他机器学习问题中。",
+
+      "AdaBoost": "Adaboost是一种迭代算法，其核心思想是针对同一个训练集训练不同的分类器(弱分类器)，然后把这些弱分类器集合起来，构成一个更强的最终分类器（强分类器）。",
+
+      "KNN": "邻近算法，或者说K最近邻(kNN，k-NearestNeighbor)分类算法是数据挖掘分类技术中最简单的方法之一。所谓K最近邻，就是k个最近的邻居的意思，说的是每个样本都可以用它最接近的k个邻居来代表。",
+
+      "SGD": "梯度下降法是一个一阶最优化算法，通常也称为最速下降法。要使用梯度下降法找到一个函数的局部极小值，必须向函数上当前点对应梯度（或者是近似梯度）的反方向的规定步长距离点进行迭代搜索。如果相反地向梯度正方向迭代进行搜索，则会接近函数的局部极大值点；这个过程则被称为梯度上升法",
+
+      "RF": "随机森林指的是利用多棵树对样本进行训练并预测的一种分类器",
+
+      "NBM": "贝叶斯分类是一类分类算法的总称，这类算法均以贝叶斯定理为基础，故统称为贝叶斯分类"
+    }
+  </script>
+  <script type="text/javascript">
+    $('#algos').change(function() {
+      var curAlgo = $(this).find("option:selected").val();
+      $('#algocontent').text(algorithms[curAlgo]);
+    });
+  </script>
+  <script type="text/javascript">
+    $('#submit').click(function() {
+      var algorithm = $('#algos').find("option:selected").val();
+      var trainSample = $('#triansamp').val();
+      var trainlbl = $('#trainlbl').val();
+      var testlbl = $('#testlbl').val();
+
+      var trainSampleArray = trainSample.split("\n").toString();
+      var trainlblArray = trainlbl.split("\n").toString();
+      var testlblArray = testlbl.split("\n").toString();
+      
+      if(trainlblArray != '' && trainlblArray != '' && testlblArray != '') {
+        var data  = {}
+        data['trainData'] = trainSampleArray;
+        data['trainLabel'] = trainlblArray;
+        data['testData'] = testlblArray;
+        data['algorithms'] = algorithm;
+        data['dim'] = trainSample.split("\n")[1];
+
+        $('#algoinput').attr("value", algorithm);
+        $('#trainSampleInput').attr("value", JSON.stringify(data));
+        $('#dataform').submit();
+
+      } else {
+        $(".alert").show();
+      }
+    });
+  </script>
+</html>
